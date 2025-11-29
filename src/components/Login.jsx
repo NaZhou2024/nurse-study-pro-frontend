@@ -51,3 +51,9 @@ export default function Login() {
     </div>
         );
     }
+
+// After successful login
+localStorage.setItem("token", res.token);
+localStorage.setItem("user", JSON.stringify(res.user));
+
+alert("Login successful!");

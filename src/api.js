@@ -15,14 +15,26 @@ export async function loginUser(data) {
   return res.json();
 }
 
+function getToken() {
+  return localStorage.getItem("token");
+}
+
 // 3️⃣ Get ALL topics
 export async function getTopics() {
-  const res = await fetch(`${API_URL}/api/topics`);
+  const res = await fetch(`${API_URL}/api/topics`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`
+    }
+});
   return res.json();
 }
 
 // 4️⃣ Get quizzes for one topic
 export async function getQuizById(topicId) {
-  const res = await fetch(`${API_URL}/api/quizzes/${topicId}`);
+  const res = await fetch(`${API_URL}/api/quizzes/${topicId}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`
+    }
+  });
   return res.json();
 }
