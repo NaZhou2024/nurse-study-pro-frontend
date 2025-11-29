@@ -5,6 +5,7 @@ export async function loginUser(data) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include",
   });
 
   return res.json();
@@ -12,5 +13,10 @@ export async function loginUser(data) {
 
 export async function getTopics() {
   const res = await fetch(`${API_URL}/api/topics`);
+  return res.json();
+}
+
+export async function getQuizById(topicId) {
+  const res = await fetch(`${API_URL}/api/quizzes/${topicId}`);
   return res.json();
 }

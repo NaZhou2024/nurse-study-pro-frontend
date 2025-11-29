@@ -3,9 +3,7 @@ import axios from "axios";
 import { getTopics } from "../api";
 
 useEffect(() => {
-  getTopics().then(setTopics);
-}, []);
-
+  getTopics().then(setTopics);}, []);
 
 export default function TopicList() {
   const [topics, setTopics] = useState([]);
