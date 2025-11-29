@@ -1,18 +1,22 @@
-import { useEffect } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
-function App() {
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/topics`)
-      .then((res) => res.json())
-      .then((data) => console.log("Frontend → Backend connection OK:", data))
-      .catch((err) => console.error("Connection FAILED:", err));
-  }, []);
+export async function loginUser(data) {
+  const res = await fetch(`${API_URL}/api/users/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    credentials: "include",
+  });
 
-  return (
-    <div>
-      <h1>Testing Frontend → Backend</h1>
-    </div>
-  );
+  return res.json();
 }
 
-export default App;
+export async function getTopics() {
+  const res = await fetch(`${API_URL}/api/topics`);
+  return res.json();
+}
+
+export async function getQuizById(topicId) {
+  const res = await fetch(`${API_URL}/api/quizzes/${topicId}`);
+  return res.json();
+}
