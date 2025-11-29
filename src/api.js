@@ -8,7 +8,11 @@ function App() {
       .catch((err) => console.error("Connection FAILED:", err));
   }, []);
 
-  return <h1>Testing Backend Connection… Check Console</h1>;
+  return (
+    <div>
+      <h1>Testing Frontend → Backend</h1>
+    </div>
+  );
 }
 
 export default App;
