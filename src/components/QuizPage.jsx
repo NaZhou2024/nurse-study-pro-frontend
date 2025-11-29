@@ -1,19 +1,33 @@
+// frontend/src/components/QuizPage.jsx
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../api"; // optional helper if you export it
+import { getQuizById } from "../api"; // ✅ Use helper from api.js
 
 export default function QuizPage({ topicId }) {
   const [quiz, setQuiz] = useState(null);
   const [score, setScore] = useState(null);
 
-  // Fetch quiz data when topicId changes
+  // Fetch quiz when topicId changes
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/api/quizzes/${topicId}`)
-      .then((res) => setQuiz(res.data))
-      .catch((err) => console.error(err));
+    async function fetchQuiz() {
+      try {
+        const data = await getQuizById(topicId);
+        setQuiz(data);
+      } catch (err) {
+        console.error("Failed to load quiz:", err);
+      }
+    }
+
+    fetchQuiz();
   }, [topicId]);
 
+  // Handle answer click
+  const handleSelect = (qIndex, option) => {
+    const updatedQuiz = { ...quiz };
+    updatedQuiz.questions[qIndex].selected = option;
+    setQuiz(updatedQuiz);
+  };
+
+  // Submit quiz
   const handleSubmit = () => {
     const result = quiz.questions.reduce(
       (acc, q) => acc + (q.selected === q.correctAnswer ? 1 : 0),
@@ -33,7 +47,14 @@ export default function QuizPage({ topicId }) {
           <p>{q.questionText}</p>
 
           {q.options.map((opt, j) => (
-            <button key={j} onClick={() => (q.selected = opt)}>
+            <button
+              key={j}
+              onClick={() => handleSelect(i, opt)}
+              style={{
+                margin: "4px",
+                background: q.selected === opt ? "#ffd27f" : "#eee",
+              }}
+            >
               {opt}
             </button>
           ))}
@@ -44,7 +65,7 @@ export default function QuizPage({ topicId }) {
 
       {score !== null && (
         <p>
-          Your score: {score}/{quiz.questions.length}
+          Your score: <strong>{score}</strong> / {quiz.questions.length}
         </p>
       )}
     </div>
