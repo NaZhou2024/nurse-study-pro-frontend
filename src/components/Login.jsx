@@ -12,11 +12,18 @@ export default function Login() {
       const res = await loginUser({ email, password });
       console.log("Logged in:", res);
       alert("Login successful!");
-      // redirect, save token, etc...
-    } catch (err) {
+        } catch (err) {
       setError("Invalid email or password");
-    }
-  };
+        }
+    };
+
+  // Optional backend test
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/topics`)
+      .then((res) => res.json())
+      .then((data) => console.log("Frontend → Backend connection OK:", data))
+      .catch((err) => console.error("Connection FAILED:", err));
+    }, []);
 
   return (
     <div>
@@ -42,12 +49,5 @@ export default function Login() {
 
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
-  );
-}
-
-useEffect(() => {
-  fetch(`${import.meta.env.VITE_API_URL}/api/topics`)
-    .then((res) => res.json())
-    .then((data) => console.log("Frontend → Backend connection OK:", data))
-    .catch((err) => console.error("Connection FAILED:", err));
-}, []);
+        );
+    }
