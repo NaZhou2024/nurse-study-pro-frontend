@@ -1,6 +1,3 @@
-import { loginUser } from "../api";
-import { useState, useEffect } from "react";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,52 +5,29 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await loginUser({ email, password });
-      console.log("Logged in:", res);
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       alert("Login successful!");
-        } catch (err) {
-      setError("Invalid email or password");
-        }
-    };
+      navigate("/topics");
 
-  // Optional backend test
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/topics`)
-      .then((res) => res.json())
-      .then((data) => console.log("Frontend → Backend connection OK:", data))
-      .catch((err) => console.error("Connection FAILED:", err));
-    }, []);
-
-  return (
-    <div>
-      <h2>Login</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button type="submit">Login</button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
-        );
+    } catch (err) {
+      setError("Something went wrong.");
     }
-
-// After successful login
-localStorage.setItem("token", res.token);
-localStorage.setItem("user", JSON.stringify(res.user));
-
-alert("Login successful!");
+  };
+};
