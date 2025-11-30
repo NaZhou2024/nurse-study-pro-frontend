@@ -1,7 +1,7 @@
 // frontend/src/api.js
 
 // 1️⃣ Read backend URL from .env (Vercel will inject VITE_API_URL automatically)
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5050";
 
 // 2️⃣ Login user
 export async function loginUser(data) {
