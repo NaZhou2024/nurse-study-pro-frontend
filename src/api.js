@@ -1,8 +1,9 @@
 // frontend/src/api.js
 import axios from "axios";
 
-// 1️⃣ Read backend URL from .env (Vercel will inject VITE_API_URL automatically)
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5050";
+// 1️⃣ Read backend URL from .env (Vercel will inject VITE_API_URL automatically), has to use render instead of vercel, because Vercel does NOT run server.js and does NOT support long-running Express servers.
+export const API_URL = "https://nurse-study-backend.onrender.com";
+
 
 // 2️⃣ Login user
 export async function loginUser(data) {
