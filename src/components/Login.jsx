@@ -1,7 +1,11 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -10,7 +14,7 @@ export default function Login() {
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -25,9 +29,8 @@ export default function Login() {
 
       alert("Login successful!");
       navigate("/topics");
-
     } catch (err) {
       setError("Something went wrong.");
     }
   };
-};
+}
