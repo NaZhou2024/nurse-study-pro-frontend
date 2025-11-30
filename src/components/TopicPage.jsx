@@ -1,17 +1,32 @@
 import { useEffect, useState } from "react";
-import { getTopics } from "../api"; // or "./api"
+import { getQuizById } from "../api";
+import { useParams } from "react-router-dom";
 
 export default function TopicPage() {
-  const [topics, setTopics] = useState([]);
+  const { topicId } = useParams();
+  const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
-    getTopics().then(setTopics);
-  }, []);
+    if (!topicId) return;
+
+    getQuizById(topicId)
+      .then((data) => setQuizzes(data))
+      .catch((err) => console.error("Failed to load quizzes", err));
+  }, [topicId]);
 
   return (
     <div>
-      {topics.map((t) => (
-        <p key={t._id}>{t.name}</p>
+      <h2>Quizzes</h2>
+
+      {quizzes.map((q) => (
+        <div key={q._id} style={{ marginBottom: 20 }}>
+          <h3>{q.question}</h3>
+          <ul>
+            {q.options.map((opt, index) => (
+              <li key={index}>{opt}</li>
+            ))}
+          </ul>
+        </div>
       ))}
     </div>
   );

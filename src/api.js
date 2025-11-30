@@ -32,7 +32,7 @@ export async function getTopics() {
 
 // 4️⃣ Get quizzes for one topic
 export async function getQuizById(topicId) {
-  const res = await axios.get(`${API_URL}/quizzes/${topicId}`, {
+  const res = await axios.get(`${API_URL}/quizzes//topic/${topicId}`, {
     withCredentials: true,
   });
   return res.data;
