@@ -9,6 +9,8 @@ export default function QuizPage({ topicId }) {
   // Fetch quiz when topicId changes
   useEffect(() => {
     async function fetchQuiz() {
+      if (!topicId) return;
+      
       try {
         const data = await getQuizById(topicId);
         setQuiz(data);

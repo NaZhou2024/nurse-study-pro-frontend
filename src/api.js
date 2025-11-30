@@ -1,4 +1,5 @@
 // frontend/src/api.js
+import axios from "axios";
 
 // 1️⃣ Read backend URL from .env (Vercel will inject VITE_API_URL automatically)
 export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5050";
@@ -31,12 +32,10 @@ export async function getTopics() {
 
 // 4️⃣ Get quizzes for one topic
 export async function getQuizById(topicId) {
-  const res = await fetch(`${API_URL}/api/quizzes/${topicId}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
+  const res = await axios.get(`${API_URL}/quizzes/${topicId}`, {
+    withCredentials: true,
   });
-  return res.json();
+  return res.data;
 }
 
 
