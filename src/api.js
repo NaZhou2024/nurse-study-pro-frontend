@@ -7,7 +7,7 @@ export const API_URL = "https://nurse-study-backend.onrender.com";
 
 // 2️⃣ Login user
 export async function loginUser(data) {
-  const res = await fetch(`${API_URL}/api/auth/login`, {
+  const res = await fetch(`${API_URL}/api/users/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
